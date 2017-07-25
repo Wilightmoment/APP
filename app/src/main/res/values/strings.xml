@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">APP</string>
+    <string name="user">帳號</string>
+    <string name="password">密碼</string>
+    <string name="register">會員註冊</string>
+    <string name="login">會員登入</string>
+</resources>
