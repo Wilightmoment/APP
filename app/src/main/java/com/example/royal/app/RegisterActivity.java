@@ -30,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
 
     private static String url="http://192.168.0.2/check.php";
-    ArrayList<HashMap<String,String>> contactList=new ArrayList<HashMap<String,String>>();
+     ArrayList<HashMap<String,String>> contactList=new ArrayList<HashMap<String,String>>();
 
 
     @Override
@@ -51,25 +51,14 @@ public class RegisterActivity extends AppCompatActivity {
                 if(count!=0){
                     Toast.makeText(RegisterActivity.this,"帳號已被註冊",Toast.LENGTH_SHORT).show();
                 }else{
-                    String str=doregister();
-                    Toast.makeText(RegisterActivity.this,str,Toast.LENGTH_SHORT).show();
-                    if(str!=null){
-                        try{
-                            JSONObject jsb=new JSONObject(str);
-                            String result= jsb.getString("query_result");
-                            if(result.equals("SUCCESS")){
-                                Toast.makeText(RegisterActivity.this,"註冊成功",Toast.LENGTH_SHORT).show();
-                            }else{
-                                Toast.makeText(RegisterActivity.this,"註冊失敗",Toast.LENGTH_SHORT).show();
-                            }
-                        }catch (JSONException e){
-                            e.printStackTrace();
-                            Toast.makeText(RegisterActivity.this, "Error parsing JSON data.", Toast.LENGTH_SHORT).show();
-                        }
+                    String User=user.getText().toString().trim();
+                    String Password=password.getText().toString().trim();
+                    if(User.equals("")||Password.equals("")){
+                        Toast.makeText(RegisterActivity.this,"帳號或密碼不得為空值",Toast.LENGTH_SHORT).show();
                     }else{
-                        Toast.makeText(RegisterActivity.this,"網頁空值",Toast.LENGTH_SHORT).show();
+                        new CheckActivity(RegisterActivity.this).execute(User,Password);
+                        finish();
                     }
-                    //Toast.makeText(RegisterActivity.this,"註冊成功",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -134,21 +123,4 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private String doregister(){
-        String data,link;
-        String User=user.getText().toString();
-        String Password=password.getText().toString();
-        BufferedReader bufferedReader;
-
-        try {
-            data = "?user="+URLEncoder.encode(User,"utf8");
-            data += "&password="+URLEncoder.encode(Password,"utf8");
-            link = "http://192.168.0.2/insert.php"+data;
-            HttpHandle Sh = new HttpHandle();
-            String result = Sh.makeServiceCall(link);
-            return result;
-        } catch (Exception e) {
-            return new String("Exception: " + e.getMessage());
-        }
-    }
 }

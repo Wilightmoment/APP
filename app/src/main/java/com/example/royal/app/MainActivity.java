@@ -37,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String User= user.getText().toString();
+                String Password=password.getText().toString();
+                new LoginActivity(MainActivity.this).execute(User,Password);
 
             }
         });
